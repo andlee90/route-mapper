@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Route Mapper</string>
+    <string name="button_add">Add Route</string>
 </resources>
