@@ -22,9 +22,12 @@ public class RouteLoader extends AsyncTaskLoader<List<RouteItem>>
     {
         RouteDBHelper dbHelper = new RouteDBHelper(mContext);
         Cursor cursor = dbHelper.getAllRoutes();
-        ArrayList<RouteItem> routes = new ArrayList<>();
         cursor.moveToFirst();
-        while (cursor.moveToNext()){
+
+        ArrayList<RouteItem> routes = new ArrayList<>();
+
+        while (cursor.moveToNext())
+        {
             routes.add(new RouteItem(cursor.getString(cursor.getColumnIndex("name")),
                     cursor.getString(cursor.getColumnIndex("date")),
                     cursor.getString(cursor.getColumnIndex("color")),

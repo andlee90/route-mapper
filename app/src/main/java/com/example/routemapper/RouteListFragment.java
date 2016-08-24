@@ -46,7 +46,8 @@ public class RouteListFragment extends Fragment implements OnClickListener, OnIt
     }
 
     @Override
-    public void onLoaderReset(Loader<List<RouteItem>> loader) {
+    public void onLoaderReset(Loader<List<RouteItem>> loader)
+    {
 
         // Do Nothing. Yet.
     }
@@ -57,7 +58,7 @@ public class RouteListFragment extends Fragment implements OnClickListener, OnIt
     {
         View rootView = inflater.inflate(R.layout.fragment_route_list, container, false);
 
-        Button button = (Button)rootView.findViewById(R.id.button_add);
+        Button button = (Button)rootView.findViewById(R.id.button_add_new_route);
         button.setOnClickListener(this);
         mListView = (ListView)rootView.findViewById(R.id.listview);
         mListView.setOnItemClickListener(this);
@@ -70,7 +71,7 @@ public class RouteListFragment extends Fragment implements OnClickListener, OnIt
     {
         switch(getId())
         {
-            case R.id.button_add:
+            case R.id.button_add_new_route:
                 Intent intent = new Intent(getActivity(), CreateRouteActivity.class);
                 intent.putExtra(KEY_EXTRA_ROUTE_ID, 0);
                 startActivity(intent);

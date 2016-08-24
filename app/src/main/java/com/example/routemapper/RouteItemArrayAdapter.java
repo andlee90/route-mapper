@@ -30,6 +30,7 @@ public class RouteItemArrayAdapter extends ArrayAdapter<RouteItem>
             convertView = mInflater.inflate(R.layout.item_route_list, parent, false);
             convertView.setTag(new ViewHolder(convertView));
         }
+
         RouteItem route = routes.get(position);
 
         ViewHolder holder = (ViewHolder) convertView.getTag();
