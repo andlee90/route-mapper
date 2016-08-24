@@ -69,7 +69,7 @@ public class RouteListFragment extends Fragment implements OnClickListener, OnIt
     @Override
     public void onClick(View v)
     {
-        switch(getId())
+        switch(v.getId())
         {
             case R.id.button_add_new_route:
                 Intent intent = new Intent(getActivity(), CreateRouteActivity.class);
