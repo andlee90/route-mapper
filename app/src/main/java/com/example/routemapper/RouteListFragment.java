@@ -1,8 +1,9 @@
 package com.example.routemapper;
 
 import android.app.Fragment;
+import android.app.LoaderManager;
 import android.content.Intent;
-import android.database.Cursor;
+import android.content.Loader;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,20 +11,44 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 
-import static android.view.View.*;
-import static android.widget.AdapterView.*;
+import java.util.List;
 
-public class RouteListFragment extends Fragment implements OnClickListener, OnItemClickListener
+import static android.view.View.OnClickListener;
+import static android.widget.AdapterView.OnItemClickListener;
+
+public class RouteListFragment extends Fragment implements OnClickListener, OnItemClickListener, LoaderManager.LoaderCallbacks<List<RouteItem>>
 {
     public final static String KEY_EXTRA_ROUTE_ID = "KEY_EXTRA_ROUTE_ID";
 
-    RouteDBHelper dbHelper;
+    private static final int LOADER_ID = 1;
+    private ListView mListView;
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState)
+    {
         super.onActivityCreated(savedInstanceState);
+        getLoaderManager().initLoader(LOADER_ID, null, this).forceLoad();
+    }
+
+    @Override
+    public Loader<List<RouteItem>> onCreateLoader(int id, Bundle args)
+    {
+        return new RouteLoader(getActivity());
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<RouteItem>> loader, List<RouteItem> data)
+    {
+        RouteItemArrayAdapter adapter = new RouteItemArrayAdapter(getActivity(),
+                android.R.layout.simple_list_item_1, data);
+        mListView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<RouteItem>> loader) {
+
+        // Do Nothing. Yet.
     }
 
     @Override
@@ -31,34 +56,11 @@ public class RouteListFragment extends Fragment implements OnClickListener, OnIt
                              Bundle savedInstanceState)
     {
         View rootView = inflater.inflate(R.layout.fragment_route_list, container, false);
-        ListView lv = (ListView)rootView.findViewById(R.id.listview);
-        Button b = (Button)rootView.findViewById(R.id.button_add);
-        b.setOnClickListener(this);
 
-        // Doing this on the UI thread is bad.
-        // TODO: Implement a proper background loader
-
-        dbHelper = new RouteDBHelper(getActivity());
-        final Cursor cursor = dbHelper.getAllRoutes();
-
-        // This is dumb
-        // TODO: Implement a proper adapter
-
-        String [] columns = new String[] {
-                RouteDBHelper.ROUTE_COLUMN_NAME,
-                RouteDBHelper.ROUTE_COLUMN_GRADE
-        };
-
-        int [] widgets = new int[] {
-                R.id.routeName,
-                R.id.routeGrade
-        };
-
-        SimpleCursorAdapter cursorAdapter = new SimpleCursorAdapter(getActivity(), R.layout.item_route_list,
-                cursor, columns, widgets, 0);
-
-        lv.setAdapter(cursorAdapter);
-        lv.setOnItemClickListener(this);
+        Button button = (Button)rootView.findViewById(R.id.button_add);
+        button.setOnClickListener(this);
+        mListView = (ListView)rootView.findViewById(R.id.listview);
+        mListView.setOnItemClickListener(this);
 
         return rootView;
     }
