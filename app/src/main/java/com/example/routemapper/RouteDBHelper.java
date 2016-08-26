@@ -31,9 +31,9 @@ public class RouteDBHelper extends SQLiteOpenHelper
                         ROUTE_COLUMN_ID + " INTEGER PRIMARY KEY, " +
                         ROUTE_COLUMN_NAME + " TEXT, " +
                         ROUTE_COLUMN_DATE + " TEXT, " +
-                        ROUTE_COLUMN_COLOR + " TEXT, " +
+                        ROUTE_COLUMN_COLOR + " INT, " +
                         ROUTE_COLUMN_LOCATION + " TEXT, " +
-                        ROUTE_COLUMN_GRADE + " INTEGER, " +
+                        ROUTE_COLUMN_GRADE + " TEXT, " +
                         ROUTE_COLUMN_SETTER + " TEXT)"
         );
     }
@@ -48,7 +48,7 @@ public class RouteDBHelper extends SQLiteOpenHelper
         onCreate(db);
     }
 
-    public boolean insertRoute(String name, String date, String color, String location, int grade,
+    public boolean insertRoute(String name, String date, int color, String location, String grade,
                                String setter)
     {
         SQLiteDatabase db = getWritableDatabase();
@@ -64,8 +64,8 @@ public class RouteDBHelper extends SQLiteOpenHelper
         return true;
     }
 
-    public boolean updateRoute(Integer id, String name, String date, String color, String location,
-                               int grade, String setter)
+    public boolean updateRoute(Integer id, String name, String date, int color, String location,
+                               String grade, String setter)
     {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();

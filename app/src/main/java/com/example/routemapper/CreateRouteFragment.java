@@ -1,6 +1,8 @@
 package com.example.routemapper;
 
 
+import android.graphics.Color;
+import android.graphics.ColorMatrix;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
@@ -8,10 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.thebluealliance.spectrum.SpectrumDialog;
+import com.thebluealliance.spectrum.SpectrumPalette;
+import com.thebluealliance.spectrum.SpectrumPreference;
 
 import static android.view.View.*;
 import static android.widget.TextView.*;
@@ -22,16 +30,16 @@ public class CreateRouteFragment extends Fragment implements OnClickListener, On
 
     private String mName;
     private String mDate;
-    private String mColor;
+    private Integer mColor;
     private String mLocation;
-    private Integer mGrade;
+    private String mGrade;
     private String mSetter;
 
     private EditText mNameEdit;
     private EditText mDateEdit;
-    private EditText mColorEdit;
-    private EditText mLocationEdit;
-    private EditText mGradeEdit;
+    private SpectrumPalette mColorPalette;
+    private Spinner mLocationSpinner;
+    private Spinner mGradeSpinner;
     private EditText mSetterEdit;
 
 
@@ -46,7 +54,8 @@ public class CreateRouteFragment extends Fragment implements OnClickListener, On
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState)
+    {
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -59,12 +68,22 @@ public class CreateRouteFragment extends Fragment implements OnClickListener, On
         mNameEdit.setOnEditorActionListener(this);
         mDateEdit = (EditText)rootView.findViewById(R.id.edit_route_date);
         mDateEdit.setOnEditorActionListener(this);
-        mColorEdit = (EditText)rootView.findViewById(R.id.edit_route_color);
-        mColorEdit.setOnEditorActionListener(this);
-        mLocationEdit = (EditText)rootView.findViewById(R.id.edit_route_location);
-        mLocationEdit.setOnEditorActionListener(this);
-        mGradeEdit = (EditText)rootView.findViewById(R.id.edit_route_grade);
-        mGradeEdit.setOnEditorActionListener(this);
+
+        mColorPalette = (SpectrumPalette) rootView.findViewById(R.id.palette);
+        mColorPalette.setColors(getResources().getIntArray(R.array.colors_array));
+
+        mLocationSpinner = (Spinner)rootView.findViewById(R.id.spinner_location);
+        ArrayAdapter<CharSequence> locationAdapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.locations_array, android.R.layout.simple_spinner_item);
+        locationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mLocationSpinner.setAdapter(locationAdapter);
+
+        mGradeSpinner = (Spinner)rootView.findViewById(R.id.spinner_grade);
+        ArrayAdapter<CharSequence> gradeAdapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.grades_array, android.R.layout.simple_spinner_item);
+        gradeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mGradeSpinner.setAdapter(gradeAdapter);
+
         mSetterEdit = (EditText)rootView.findViewById(R.id.edit_route_setter);
         mSetterEdit.setOnEditorActionListener(this);
 
@@ -124,21 +143,6 @@ public class CreateRouteFragment extends Fragment implements OnClickListener, On
             case R.id.edit_route_date:
                 if(actionId == EditorInfo.IME_ACTION_DONE){
                     mDate = mDateEdit.getText().toString();
-                }
-                break;
-            case R.id.edit_route_color:
-                if(actionId == EditorInfo.IME_ACTION_DONE){
-                    mColor = mColorEdit.getText().toString();
-                }
-                break;
-            case R.id.edit_route_location:
-                if(actionId == EditorInfo.IME_ACTION_DONE){
-                    mLocation = mLocationEdit.getText().toString();
-                }
-                break;
-            case R.id.edit_route_grade:
-                if(actionId == EditorInfo.IME_ACTION_DONE){
-                    mGrade = Integer.parseInt(mGradeEdit.getText().toString());
                 }
                 break;
             case R.id.edit_route_setter:

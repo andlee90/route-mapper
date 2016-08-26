@@ -20,6 +20,7 @@ import static android.widget.AdapterView.OnItemClickListener;
 public class RouteListFragment extends Fragment implements OnClickListener, OnItemClickListener, LoaderManager.LoaderCallbacks<List<RouteItem>>
 {
     public final static String KEY_EXTRA_ROUTE_ID = "KEY_EXTRA_ROUTE_ID";
+    public final static String KEY_ROUTE_ID = "KEY_ROUTE_ID";
 
     private static final int LOADER_ID = 1;
     private ListView mListView;
@@ -84,6 +85,8 @@ public class RouteListFragment extends Fragment implements OnClickListener, OnIt
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
-
+        Intent intent = new Intent(getActivity(), RouteDetailActivity.class);
+        intent.putExtra(KEY_EXTRA_ROUTE_ID, id);
+        startActivity(intent);
     }
 }
