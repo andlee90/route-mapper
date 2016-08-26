@@ -29,9 +29,9 @@ public class RouteLoader extends AsyncTaskLoader<List<RouteItem>>
         {
             routes.add(new RouteItem(cursor.getString(cursor.getColumnIndex("name")),
                     cursor.getString(cursor.getColumnIndex("date")),
-                    cursor.getString(cursor.getColumnIndex("color")),
+                    cursor.getInt(cursor.getColumnIndex("color")),
                     cursor.getString(cursor.getColumnIndex("location")),
-                    cursor.getInt(cursor.getColumnIndex("grade")),
+                    cursor.getString(cursor.getColumnIndex("grade")),
                     cursor.getString(cursor.getColumnIndex("setter"))));
         }
         return routes;
