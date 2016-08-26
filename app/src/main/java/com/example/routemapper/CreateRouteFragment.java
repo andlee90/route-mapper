@@ -159,16 +159,16 @@ public class CreateRouteFragment extends Fragment implements OnClickListener, On
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
     {
-        switch (view.getId())
+        switch (parent.getId())
         {
-            case R.id.spinner_grade:
-                mGrade = parent.getItemAtPosition(position).toString();
-                break;
             case R.id.spinner_location:
-                mLocation = parent.getItemAtPosition(position).toString();
+                mLocation = mLocationSpinner.getItemAtPosition(position).toString();
+                break;
+            case R.id.spinner_grade:
+                mGrade = mGradeSpinner.getItemAtPosition(position).toString();
                 break;
             case R.id.spinner_setter:
-                mSetter = parent.getItemAtPosition(position).toString();
+                mSetter = mSetterSpinner.getItemAtPosition(position).toString();
                 break;
         }
     }
