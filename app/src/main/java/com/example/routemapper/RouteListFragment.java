@@ -86,7 +86,7 @@ public class RouteListFragment extends Fragment implements OnClickListener, OnIt
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
         Intent intent = new Intent(getActivity(), RouteDetailActivity.class);
-        intent.putExtra(KEY_EXTRA_ROUTE_ID, id);
+        intent.putExtra(KEY_ROUTE_ID, id);
         startActivity(intent);
     }
 }
